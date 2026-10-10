@@ -1,0 +1,4 @@
+run,fid,diversity_ratio
+base,151.82,0.966
+hinge,161.93,0.992
+sn,401.82,0.093

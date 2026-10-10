@@ -1,0 +1,11 @@
+# Python 3.14. Install torch from the CUDA 12.8 index (needed for RTX 50xx / Blackwell):
+#   pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+numpy==2.5.2
+pillow==12.3.0
+matplotlib==3.11.2
+pandas==3.0.6
+scipy==1.18.1
+jupyter
+ipykernel

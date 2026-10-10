@@ -1,0 +1,13 @@
+{
+  "name": "sn",
+  "loss": "bce",
+  "spectral": true,
+  "epochs": 200,
+  "batch": 128,
+  "lr_g": 0.0002,
+  "lr_d": 0.0002,
+  "seed": 23242,
+  "snap_every": 10,
+  "ckpt_every": 10,
+  "resume": false
+}
