@@ -38,27 +38,29 @@ class Generator(nn.Module):
 
 class Discriminator(nn.Module):
     """Outputs one raw logit per image. `spectral` wraps every conv in spectral norm
-    and changes nothing else, so it can be compared one-to-one with the base."""
+    and changes nothing else, so it can be compared one-to-one with the base.
+    `batchnorm=False` drops BN from D, as in SN-GAN (Miyato et al., 2018)."""
 
-    def __init__(self, width: int = 64, spectral: bool = False):
+    def __init__(self, width: int = 64, spectral: bool = False, batchnorm: bool = True):
         super().__init__()
         w = width
         sn = spectral_norm if spectral else (lambda m: m)
+        norm = nn.BatchNorm2d if batchnorm else (lambda c: nn.Identity())
         self.net = nn.Sequential(
             # (N, 3, 64, 64) -> (N, w, 32, 32); no BN on the first layer, as in DCGAN
             sn(nn.Conv2d(3, w, 4, 2, 1, bias=False)),
             nn.LeakyReLU(0.2, True),
             # -> (N, 2w, 16, 16)
             sn(nn.Conv2d(w, w * 2, 4, 2, 1, bias=False)),
-            nn.BatchNorm2d(w * 2),
+            norm(w * 2),
             nn.LeakyReLU(0.2, True),
             # -> (N, 4w, 8, 8)
             sn(nn.Conv2d(w * 2, w * 4, 4, 2, 1, bias=False)),
-            nn.BatchNorm2d(w * 4),
+            norm(w * 4),
             nn.LeakyReLU(0.2, True),
             # -> (N, 8w, 4, 4)
             sn(nn.Conv2d(w * 4, w * 8, 4, 2, 1, bias=False)),
-            nn.BatchNorm2d(w * 8),
+            norm(w * 8),
             nn.LeakyReLU(0.2, True),
             # -> (N, 1, 1, 1)
             sn(nn.Conv2d(w * 8, 1, 4, 1, 0, bias=False)),

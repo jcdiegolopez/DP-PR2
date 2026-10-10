@@ -37,4 +37,16 @@ Cada experimento cambia **una sola cosa** respecto a `base`.
 
 **Interpretación (hipótesis, no verificada):** la normalización espectral limita la norma de los pesos de cada convolución, pero en nuestro D cada convolución va seguida de BatchNorm, que vuelve a escalar las activaciones. Así la restricción de Lipschitz no se cumple realmente. SN-GAN (Miyato et al., 2018) usa D **sin** BatchNorm. Al cambiar una sola cosa para respetar el diseño experimental, aplicamos la técnica en un contexto donde no es efectiva. Para verificarlo habría que correr SN sin BatchNorm en D.
 
+### Experimento 2b: verificación (`sn_nobn`)
+
+**Cambio respecto a `sn`:** se quita BatchNorm de D (queda solo la normalización espectral, como en SN-GAN). Todo lo demás es igual a `sn`.
+
+**Hipótesis (escrita antes de entrenar):** Creemos que, sin BatchNorm, la normalización espectral **sí estabilizará el entrenamiento y evitará el colapso de `sn`** porque la restricción de Lipschitz ya no se deshace con el reescalado de BN. Lo consideraremos útil (y confirmaremos la interpretación anterior) si el entrenamiento llega a la época 200 sin colapsar, con D(x) y D(G(z)) menos extremos que en `base` y un FID igual o mejor que `base`.
+
+**Resultado:** hipótesis **parcialmente confirmada**.
+- **Estabilidad: sí.** Llega a la época 200 sin colapsar. Las pérdidas de D y G se estabilizan "enfrentadas" alrededor de 0.7 a 0.75, sin los picos de `base` ni de `sn`. Es la única corrida cuya curva se parece a la de una GAN sana según lo visto en clase. Esto apoya la interpretación de que el colapso de `sn` venía de combinar normalización espectral con BatchNorm.
+- **Calidad: no.** FID = 224.9 (peor que `base`, 151.8) y diversidad = 0.814. Las imágenes salen **deslavadas**: la desviación estándar de los píxeles generados es 0.046, frente a 0.50 en las imágenes reales (medido igual en modo `train` y `eval` de G, así que no es un artefacto de BatchNorm). La estructura del personaje sí aparece (cabeza, pelo, lentes, ropa), pero con un 10 % del contraste.
+- D(G(z)) se queda clavado en 0.5 y D(x) en ≈ 0.95: D reconoce lo real, pero no logra empujar a G a aumentar el contraste. Con la normalización espectral D es aproximadamente 1-Lipschitz, así que su salida cambia poco ante diferencias de amplitud. Nuestra hipótesis es que la señal hacia G resulta demasiado débil con los hiperparámetros de DCGAN; SN-GAN usa otros (β₁ = 0 o 0.5, varios pasos de D por cada paso de G, a veces más ancho). No lo verificamos por tiempo.
+- Conclusión: **estabilidad no es lo mismo que calidad**. La técnica eliminó la inestabilidad, pero con la configuración DCGAN el generador queda subentrenado en contraste.
+
 **Lección:** no basta con elegir una técnica de estabilización; también importa su compatibilidad con el resto de la arquitectura. Además, el colapso no se ve en las métricas finales si solo se mira la última época: hay que vigilar las curvas y la rejilla durante todo el entrenamiento.

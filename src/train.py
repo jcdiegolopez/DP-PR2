@@ -11,6 +11,7 @@ Examples:
   python src/train.py --name base --loss bce
   python src/train.py --name hinge --loss hinge
   python src/train.py --name sn --loss bce --spectral
+  python src/train.py --name sn_nobn --loss bce --spectral --no-d-bn
 """
 import argparse
 import csv
@@ -39,6 +40,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--name", required=True)
     p.add_argument("--loss", choices=["bce", "minimax", "hinge"], default="bce")
     p.add_argument("--spectral", action="store_true", help="spectral norm on every conv of D")
+    p.add_argument("--no-d-bn", action="store_true", help="remove BatchNorm from D")
     p.add_argument("--epochs", type=int, default=200)
     p.add_argument("--batch", type=int, default=128)
     p.add_argument("--lr-g", type=float, default=2e-4)
@@ -87,7 +89,7 @@ def main() -> None:
     z_fixed = fixed_noise(device)
 
     G = Generator().to(device)
-    D = Discriminator(spectral=args.spectral).to(device)
+    D = Discriminator(spectral=args.spectral, batchnorm=not args.no_d_bn).to(device)
     G.apply(init_weights)
     D.apply(init_weights)
     opt_g = torch.optim.Adam(G.parameters(), lr=args.lr_g, betas=(0.5, 0.999))
