@@ -1,0 +1,14 @@
+{
+  "name": "voxel-dataset",
+  "private": true,
+  "type": "module",
+  "description": "Generates the Voxel Art training set (DiceBear, CC0) at 64x64.",
+  "scripts": {
+    "generate": "node generate.mjs"
+  },
+  "dependencies": {
+    "@dicebear/core": "10.7.0",
+    "@dicebear/styles": "10.6.0",
+    "@resvg/resvg-js": "2.6.2"
+  }
+}

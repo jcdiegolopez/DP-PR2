@@ -1,0 +1,4 @@
+docu/
+node_modules/
+# Regenerable with dataset/generate.mjs
+data/voxel64/
