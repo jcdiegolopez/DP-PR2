@@ -8,6 +8,7 @@ DCGAN entrenada desde cero para generar habitantes nuevos de **Cubópolis**, una
 ## Estructura
 
 ```
+reproduce.py          reproduce todo con un comando (ver abajo)
 dataset/              generador del dataset (Node + DiceBear)
 data/README.md        origen, licencia y preparación de los datos
 src/
@@ -35,17 +36,28 @@ docs/                 universo, bitácora de experimentos, galería y vecinos, p
 Requisitos: Python 3.14, Node 24 y una GPU NVIDIA (probado con RTX 5070 Laptop, CUDA 12.8).
 
 ```bash
-# 1. Entorno
+# 1. Entorno (una sola vez)
 python -m venv .venv && .venv/Scripts/activate        # en Linux/Mac: source .venv/bin/activate
 pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu128
 
-# 2. Datos (5,000 imágenes 64×64, deterministas)
+# 2. Todo lo demás con un comando
+python reproduce.py            # ~10 min: genera los datos y regenera la galería con los pesos incluidos
+python reproduce.py --full     # ~30 min con GPU: además reentrena las cuatro corridas, figuras y métricas
+```
+
+`reproduce.py` genera el dataset si no existe, regenera `galeria/` a partir de `artifacts/runs/hinge/G_final.pt` y las semillas de `galeria/seeds.json`, y **verifica que las imágenes sean idénticas a las del repositorio**. Con `--full`, las corridas reentrenadas se guardan como `<corrida>_repro` para no sobrescribir los pesos ni la evidencia de la presentación. Reentrenar en GPU puede dar resultados ligeramente distintos, porque algunas operaciones de cuDNN no son deterministas.
+
+<details>
+<summary>Pasos individuales</summary>
+
+```bash
+# Datos (5,000 imágenes 64×64, deterministas)
 cd dataset && npm install && node generate.mjs && cd ..
 
-# 3. Regenerar la galería con los pesos incluidos (no requiere entrenar)
+# Galería con los pesos incluidos (no requiere entrenar)
 python src/gallery.py final --run hinge --pick 36 100 30 13 3 62 103 102 140 151
 
-# 4. (Opcional) Reentrenar las cuatro corridas, ~6 min cada una
+# Reentrenar las cuatro corridas, ~6 min cada una
 python src/train.py --name base    --loss bce
 python src/train.py --name hinge   --loss hinge
 python src/train.py --name sn      --loss bce --spectral
@@ -54,8 +66,7 @@ python src/plot_run.py base hinge sn sn_nobn
 python src/evaluate.py base hinge sn sn_nobn
 python src/gallery.py candidates --run hinge
 ```
-
-El paso 3 regenera exactamente las imágenes de `galeria/` a partir de `artifacts/runs/hinge/G_final.pt` y las semillas de `galeria/seeds.json`. Reentrenar en GPU puede dar resultados ligeramente distintos, porque algunas operaciones de cuDNN no son deterministas.
+</details>
 
 ## Semillas
 
