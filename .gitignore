@@ -6,4 +6,6 @@ data/voxel64/
 # Heavy training state; final weights are shared by link
 artifacts/runs/*/checkpoints/
 artifacts/runs/*/G_final.pt
+# Final model weights, needed to regenerate the gallery
+!artifacts/runs/hinge/G_final.pt
 artifacts/*.log

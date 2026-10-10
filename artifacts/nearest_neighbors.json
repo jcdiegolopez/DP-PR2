@@ -1,0 +1,79 @@
+{
+  "run": "hinge",
+  "real_to_real_reference": {
+    "p5": 0.043101511895656586,
+    "median": 0.07035219669342041
+  },
+  "rows": [
+    {
+      "character": "personaje_01",
+      "nn_feature_index": 217,
+      "feature_dist": 0.2304,
+      "nn_pixel_index": 4653,
+      "pixel_rms": 0.3012
+    },
+    {
+      "character": "personaje_02",
+      "nn_feature_index": 4645,
+      "feature_dist": 0.2248,
+      "nn_pixel_index": 3498,
+      "pixel_rms": 0.2367
+    },
+    {
+      "character": "personaje_03",
+      "nn_feature_index": 3282,
+      "feature_dist": 0.2756,
+      "nn_pixel_index": 2786,
+      "pixel_rms": 0.3064
+    },
+    {
+      "character": "personaje_04",
+      "nn_feature_index": 169,
+      "feature_dist": 0.1958,
+      "nn_pixel_index": 2185,
+      "pixel_rms": 0.2147
+    },
+    {
+      "character": "personaje_05",
+      "nn_feature_index": 2146,
+      "feature_dist": 0.1961,
+      "nn_pixel_index": 1347,
+      "pixel_rms": 0.2356
+    },
+    {
+      "character": "personaje_06",
+      "nn_feature_index": 3365,
+      "feature_dist": 0.2057,
+      "nn_pixel_index": 3922,
+      "pixel_rms": 0.2228
+    },
+    {
+      "character": "personaje_07",
+      "nn_feature_index": 1007,
+      "feature_dist": 0.2574,
+      "nn_pixel_index": 4643,
+      "pixel_rms": 0.2233
+    },
+    {
+      "character": "personaje_08",
+      "nn_feature_index": 413,
+      "feature_dist": 0.2482,
+      "nn_pixel_index": 2525,
+      "pixel_rms": 0.2517
+    },
+    {
+      "character": "personaje_09",
+      "nn_feature_index": 4313,
+      "feature_dist": 0.1934,
+      "nn_pixel_index": 3506,
+      "pixel_rms": 0.1983
+    },
+    {
+      "character": "personaje_10",
+      "nn_feature_index": 4417,
+      "feature_dist": 0.1914,
+      "nn_pixel_index": 1152,
+      "pixel_rms": 0.263
+    }
+  ]
+}

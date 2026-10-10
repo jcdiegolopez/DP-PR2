@@ -114,7 +114,7 @@ def final(run: str, picks: list[int], device: torch.device) -> None:
             ax.axis("off")
     fig.suptitle(f"Vecinos más cercanos en entrenamiento\nreferencia real↔real (CNN): "
                  f"p5={ref['p5']:.3f}, mediana={ref['median']:.3f}", fontsize=9)
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, 0, 1, 0.97))
     fig.savefig(FIGS / f"{run}_nearest_neighbors.png", dpi=120)
     (ROOT / "artifacts" / "nearest_neighbors.json").write_text(
         json.dumps({"run": run, "real_to_real_reference": ref, "rows": rows}, indent=2))

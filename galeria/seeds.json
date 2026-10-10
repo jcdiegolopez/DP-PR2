@@ -1,0 +1,58 @@
+{
+  "run": "hinge",
+  "weights": "artifacts/runs/hinge/G_final.pt",
+  "seed_base": 100000,
+  "selection": "10 de 200",
+  "characters": [
+    {
+      "file": "personaje_01.png",
+      "candidate_index": 36,
+      "seed": 100036
+    },
+    {
+      "file": "personaje_02.png",
+      "candidate_index": 100,
+      "seed": 100100
+    },
+    {
+      "file": "personaje_03.png",
+      "candidate_index": 30,
+      "seed": 100030
+    },
+    {
+      "file": "personaje_04.png",
+      "candidate_index": 13,
+      "seed": 100013
+    },
+    {
+      "file": "personaje_05.png",
+      "candidate_index": 3,
+      "seed": 100003
+    },
+    {
+      "file": "personaje_06.png",
+      "candidate_index": 62,
+      "seed": 100062
+    },
+    {
+      "file": "personaje_07.png",
+      "candidate_index": 103,
+      "seed": 100103
+    },
+    {
+      "file": "personaje_08.png",
+      "candidate_index": 102,
+      "seed": 100102
+    },
+    {
+      "file": "personaje_09.png",
+      "candidate_index": 140,
+      "seed": 100140
+    },
+    {
+      "file": "personaje_10.png",
+      "candidate_index": 151,
+      "seed": 100151
+    }
+  ]
+}
